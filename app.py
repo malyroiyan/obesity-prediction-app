@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -11,6 +10,7 @@ from sklearn.svm import SVC
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 from imblearn.over_sampling import SMOTE
+import io  # <-- import io untuk StringIO
 
 st.set_page_config(page_title="Prediksi Obesitas", layout="wide")
 st.title("📊 Aplikasi Prediksi Obesitas")
@@ -23,9 +23,11 @@ if uploaded_file:
     st.dataframe(df.head())
 
     st.subheader("📌 Informasi Dataset")
-    buffer = []
-    df.info(buf=(buffer := []))
-    st.text("\n".join(buffer))
+    buffer = io.StringIO()              # buat buffer StringIO
+    df.info(buf=buffer)                 # arahkan output df.info() ke buffer
+    info_str = buffer.getvalue()        # ambil hasilnya sebagai string
+    buffer.close()
+    st.text(info_str)                   # tampilkan di Streamlit
 
     st.subheader("📈 Statistik Deskriptif")
     st.dataframe(df.describe(include='all'))
