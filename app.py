@@ -24,7 +24,7 @@ if uploaded_file:
 
     st.subheader("📌 Informasi Dataset")
     buffer = []
-    df.info(buf=buffer := [])
+    df.info(buf=(buffer := []))
     st.text("\n".join(buffer))
 
     st.subheader("📈 Statistik Deskriptif")
